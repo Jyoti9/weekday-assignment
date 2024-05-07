@@ -188,6 +188,7 @@ button {
   display: flex;
     gap: 10px;
     margin: 2% 5%;
+    flex-wrap: wrap;
 }
 .company-input{
   border: 1px solid hsl(0, 0%, 80%);
