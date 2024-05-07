@@ -1,5 +1,6 @@
 import { createSlice, configureStore, current } from "@reduxjs/toolkit";
 const initState = { jobList: [], allJobs: [], isLoading: false}; //jobList for resultant job and alljobs for all fetched jobs
+let initalHit = 5;
 const filterInit = {
   jobRole: [],
   location: [],
@@ -25,16 +26,12 @@ const jobSlice = createSlice({
   reducers: {
     changeData(state, action) {
       state.allJobs = action.payload;
-      if(!state.jobList.length){
         state.jobList = state.allJobs;
-      }
-      console.log(state.jobList);
     },
     changeLoading(state){
             state.isLoading = !state.isLoading;
     },
     filterData(state, action) {
-      console.log(action.payload);
       const stateReal = current(state);
     const copySource = !state.jobList.length ? [...stateReal.allJobs] : [...stateReal.jobList]
       const copyData = copySource;
@@ -60,7 +57,6 @@ const jobSlice = createSlice({
             item[action.payload.key] !== null
         );
       } else if (action.payload.key === "location") {
-        console.log("sjbsj");
         const filters = action.payload.values.reduce((reducer, item) => {
           reducer.push(item.value);
           return reducer;
@@ -99,19 +95,19 @@ jobActions.changeLoading();
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ limit: 30, offset: 0 }),
+      body: JSON.stringify({ limit: initalHit, offset: 0 }),
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         jobActions.changeLoading();
         dispatch(jobActions.changeData(result.jdList));
+        initalHit += 10; 
+        console.log(initalHit);
       })
       .catch((error) => console.error(error));
   };
 }
 function checkAllFilter(filters){
-    console.log('ss')
    for (var key in filters) {
      jobActions.filterData({values: filters.key,key: key})
    }

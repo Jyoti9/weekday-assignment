@@ -12,9 +12,7 @@ import {
 export default function Filters() {
     const dispatch = useDispatch();
     const filterState = useSelector((state)=> state.filter)
-    console.log(filterState);
     function onChangeRole(values,key){
-        console.log(values);
          dispatch(jobActions.filterData({ values, key }));
          dispatch(filterActions.updateField({label: key, value: values}));
     }

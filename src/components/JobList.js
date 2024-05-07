@@ -11,14 +11,13 @@ export default function JobList(){
      dispatch(fetchData());
     },[])
    const handleScroll = () => {
-  if (
-    window.innerHeight + document.documentElement.scrollTop -10 >
+  if (window.innerHeight + document.documentElement.scrollTop !==
       document.documentElement.offsetHeight ||
     loading
   ) {
     return;
   }
-  fetchData();
+   dispatch(fetchData());
 };
 
 useEffect(() => {
